@@ -1,0 +1,82 @@
+import mongoose from "mongoose";
+
+const courseSchema = new mongoose.Schema({
+    code: { type: String, unique: true, required: true },
+    name: { type: String, unique: true, required: true },
+    creditHours: Number,
+});
+
+export default mongoose.model("Course", courseSchema);
+
+import mongoose from "mongoose";
+
+const departmentSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+});
+
+export default mongoose.model("Department", departmentSchema);
+
+import mongoose from "mongoose";
+
+const deptCourseSchema = new mongoose.Schema({
+    department: { type: mongoose.Schema.Types.ObjectId, ref: "Department" },
+    course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+});
+
+export default mongoose.model("DepartmentCourse", deptCourseSchema);
+
+import mongoose from "mongoose";
+
+const deptSemesterSchema = new mongoose.Schema({
+    department: { type: mongoose.Schema.Types.ObjectId, ref: "Department" },
+    semester: { type: mongoose.Schema.Types.ObjectId, ref: "Semester" },
+});
+
+export default mongoose.model("DepartmentSemester", deptSemesterSchema);
+
+import mongoose from "mongoose";
+
+const facultySchema = new mongoose.Schema({
+    firstName: { type: String, required: true },
+    lastName: String,
+    middleInitial: String,
+    dateOfJoining: { type: Date, required: true },
+    dob: { type: Date, required: true },
+    designation: { type: String, required: true },
+    department: { type: mongoose.Schema.Types.ObjectId, ref: "Department" },
+    lectureHours: { type: Number, default: 0 },
+    labHours: { type: Number, default: 0 },
+});
+
+export default mongoose.model("Faculty", facultySchema);
+
+import mongoose from "mongoose";
+
+const roomSchema = new mongoose.Schema({
+    type: { type: Number, enum: [1, 2, 3], required: true }, // 1: Classroom, 2: Lab, 3: Both
+    number: { type: String, unique: true, required: true },
+    capacity: Number,
+});
+
+export default mongoose.model("Room", roomSchema);
+
+import mongoose from "mongoose";
+
+const semesterSchema = new mongoose.Schema({
+    value: { type: Number, enum: [1, 2, 3, 4, 5, 6, 7, 8], required: true },
+    numStudents: Number,
+});
+
+export default mongoose.model("Semester", semesterSchema);
+
+import mongoose from "mongoose";
+
+const userSchema = new mongoose.Schema({
+    role: { type: Number, enum: [1, 2], required: true }, // 1: Admin, 2: Faculty
+    email: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
+    mobile: { type: String, unique: true, required: true },
+});
+
+export default mongoose.model("User", userSchema);
+
